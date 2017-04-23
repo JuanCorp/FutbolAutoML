@@ -1,0 +1,516 @@
+﻿@model FootballML.Models.SimularViewModel
+@{
+    Layout = null;
+}
+@Html.HiddenFor(model => model.equipo1)
+@Html.HiddenFor(model => model.equipo2)
+@Html.HiddenFor(model => model.nombre1)
+@Html.HiddenFor(model => model.nombre2)
+@Html.HiddenFor(model => model.jugs)
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Jugar</title>
+</head>
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<body>
+    <div style="text-align:center">
+        <button id="historial" class="btn-sm btn-info" style="text-align:center;display:block;margin:20px auto"> Historial </button>
+    </div>
+    <div id="tablero">
+    <div class="fitImage">
+
+        <span class="timer"></span>
+
+        <div id="ofensiva" class="ofensivatext">
+
+        </div>
+        <div id="defensiva" class="defensivatext">
+
+        </div>
+        <div id="falta" class="faltatext">
+
+        </div>
+        <div id="EquipoBalon" class="balon">
+
+        </div>
+        <div id="tiro" class="gol">
+
+
+        </div>
+
+    </div>
+    <div style="text-align:center;">
+        <div class="row">
+
+
+
+            <div class="Equipo1">
+                <img src="@Model.icono1" style="width:200px;height:200px" />
+                <div id="Goles1" class="Marcador">
+                </div>
+
+            </div>
+            <div class="Equipo2">
+                <img src="@Model.icono2" style="width:200px;height:200px" />
+                <div id="Goles2" ; class="Marcador">
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+
+    <table id="tabla" style="text-align:center;margin-left:auto;margin-right:auto" class="table table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th>NumJugada</th>
+                <th>Equipo</th>
+                <th>Categoria</th>
+                <th>Jugada</th>
+                <th>Minuto</th>
+            </tr>
+        </thead>
+        <tbody id="tablebody">
+
+            @foreach (var item in Model.jugadas)
+            {
+
+            @Html.HiddenFor(i => item.Equipo)
+            @Html.HiddenFor(i => item.CategoriaJugada)
+            @Html.HiddenFor(i => item.TipoJugada)
+
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumJugada)<br />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Equipo)<br />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoriaJugada)<br />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoJugada)<br />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Minuto)<br />
+                </td>
+                <td>
+                    
+                    <button id="boton" class="btn-sm btn-info" onclick="DespJugada(@Html.Encode(item.NumJugada),@Html.Encode(item.Equipo),'@Html.Encode(item.CategoriaJugada)','@Html.Encode(item.TipoJugada)')"> Ir a Jugada </button>
+                </td>
+            </tr>
+
+            }
+
+        </tbody>
+    </table>
+
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+</html>
+
+
+
+<script src="~/Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+<style>
+    .timer {
+        width: 200px;
+        margin: 20px auto;
+        text-align: center;
+        display: block;
+        font-size: 56px;
+        text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        color: white;
+    }
+
+    #help {
+        width: 500px;
+        margin: 20px auto;
+        text-align: center;
+        display: block;
+        font-size: 14px
+    }
+
+    .ofensivatext {
+        color: yellow;
+        text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        font-size: 24px
+    }
+
+    .defensivatext {
+        color: blue;
+        text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        font-size: 24px
+    }
+
+    .faltatext {
+        color: orange;
+        text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        font-size: 24px
+    }
+
+    .balon {
+        margin: 20px auto;
+        text-align: center;
+        display: block;
+        font-size: 20px;
+        color: white
+    }
+
+    .gol {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        margin: 0 auto;
+        border: none;
+        font: normal 32px/normal "Anton", Helvetica, sans-serif;
+        color: rgb(222, 112, 112);
+        text-align: center;
+        text-transform: uppercase;
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        letter-spacing: 10px;
+        text-shadow: 4px 4px 0 rgb(238,238,238), 6px 6px 0 rgb(112,112,112);
+    }
+
+    .stats {
+        display: block;
+        font-size: 20px
+    }
+
+    .Marcador {
+        margin: 20px auto;
+        position: absolute;
+        top: 200px;
+        left: 0;
+        width: 100%;
+        font-size: 32px
+    }
+
+    /* Make .fitImage fill viewport */
+    html, body, .fitImage {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Make div have background image */
+    .fitImage {
+        background: center no-repeat url('https://www2.picturepush.com/photo/a/4155515/img/Anonymous/soccer-field-2.jpg');
+        /* CSS3 prefix added by prefix free library */
+        background-size: contain;
+        bottom: 90%;
+        text-align: center
+    }
+
+    .Equipo2 {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        height: 300px;
+        width: 300px;
+    }
+
+    .Equipo1 {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        height: 300px;
+        width: 300px;
+    }
+</style>
+
+<script>
+    var GolesTeam1 = 0;
+    var GolesTeam2 = 0;
+
+
+
+    $('#tabla').hide();
+
+    $('#historial').click(function () {
+
+        $('#tablero').hide();
+        $('#tabla').show(100);
+    })
+
+      function DespJugada (numero,equipo,cat,tipojug) {
+
+
+
+
+
+        var equipo1 = $('#equipo1').val();
+        var equipo2 = $('#equipo2').val();
+        var nombre1 = $('#nombre1').val();
+        var nombre2 = $('#nombre2').val();
+        var numJugada = numero
+        var equipoJugada = equipo.toString();
+        var categoria = cat
+        var tipo = tipojug;
+
+        $('#tabla').hide();
+        $('#tablero').show();
+
+        $('#Goles1').html(GolesTeam1.toString());
+        $('#Goles2').html(GolesTeam2.toString());
+        $('#resume').hide();
+
+
+        if (tipo == 'Inicio') {
+
+            if (equipoJugada == equipo1)
+                $('#EquipoBalon').html(nombre1 + " comienza con el balon");
+            else
+                $('#EquipoBalon').html(nombre2 + " comienza con el balon ");
+            return;
+        }
+
+
+
+
+
+
+
+
+
+
+        $('historial').show();
+        $('#tabla').hide();
+        $('#tiro').hide();
+
+
+
+
+
+        if (categoria == 'Falta') {
+            //Es falta
+            $('#ofensiva').hide();
+            $('#defensiva').hide();
+            $('#falta').show();
+
+            if (tipo == "saquebandafalta" || tipo == "saquebanda") {
+                //Saque de banda
+                if (tipo == "saquebandafalta") {
+                    //Saque banda, cambia de equipo
+                    if (equipoJugada == equipo1) {
+                        $('#falta').html('Saque de banda, balon pasa a' + nombre2);
+                        equipoBalon = 2;
+                    }
+                    else {
+                        $('#falta').html('Saque de banda, balon pasa a' + nombre1);
+                        equipoBalon = 1;
+                    }
+                }
+                else {
+                    //Saque de banda, mismo equipo se queda con el balon, agregar falta a equipo contrario.
+                    if (equipoJugada == equipo1) {
+                        $('#falta').html('Saque de banda de ' + nombre1);
+
+                    }
+                    else {
+                        $('#falta').html('Saque de banda de ' + nombre2);
+
+                    }
+                }
+            }
+
+            else if (tipo == "saquemeta") {
+                //Saque de meta
+                if (equipoJugada == equipo1) {
+                    $('#falta').html('Saque de meta, balon pasa a ' + nombre2);
+
+                }
+                else {
+
+                    $('#falta').html('Saque de meta, balon pasa a ' + nombre1);
+                }
+
+            }
+            else {
+                //saque de esquina
+                if (equipoJugada == equipo1) {
+                    $('#falta').html('Saque de esquina de ' + nombre1);
+
+                }
+                else {
+                    $('#falta').html('Saque de esquina de ' + nombre2);
+
+                }
+            }
+
+
+        }
+
+
+
+        else if (categoria == "Anotacion") {
+            $('#tiro').show();
+            if (equipoJugada == equipo1) {
+
+                if (tipo == "penalgol") {
+                    $('#ofensiva').hide();
+                    $('#defensiva').hide();
+                    $('#falta').show(100);
+                    $('#falta').html('Falta de ' + nombre2 + ', tiro libre para ' + nombre1);
+                    $('#tiro').html('GOOOOOOOOOOOOOOL del ' + nombre1);
+                    equipoBalon = 2;
+                }
+
+                else {
+                    $('#defensiva').hide();
+                    $('#falta').hide();
+                    $('#ofensiva').show(100);
+                    $('#ofensiva').html(nombre1 + ' tira para anotar!');
+                    $('#tiro').html('GOOOOOOOOOOOOOOL del ' + nombre1);
+                    equipoBalon = 2;
+
+                }
+
+            }
+
+            else {
+                
+                if (tipo == "penalgol") {
+                    $('#ofensiva').hide();
+                    $('#defensiva').hide();
+                    $('#falta').show(100);
+                    $('#falta').html('Falta de ' + nombre1 + ', tiro libre para ' + nombre2);
+                    $('#tiro').html('GOOOOOOOOOOOOOOL del ' + nombre2);
+                    equipoBalon = 1;
+                }
+
+                else {
+
+                    $('#ofensiva').show(100);
+                    $('#ofensiva').html(nombre2 + ' tira para anotar!');
+                    $('#tiro').html('GOOOOOOOOOOOOOOL del ' + nombre2);
+                    equipoBalon = 1;
+
+
+
+                }
+            }
+        }
+
+        else if (categoria == "Defensiva") {
+            $('#ofensiva').hide();
+            $('#defensiva').show();
+            $('#falta').hide();
+
+
+            if (tipo == "robo") {
+                switch (true) {
+                    case (equipoJugada == equipo1):
+                        $('#defensiva').html('Robo de balon de ' + nombre1);
+                        equipoBalon = 1;
+
+                        break;
+                    default:
+                        $('#defensiva').html('Robo de balon de ' + nombre2);
+                        equipoBalon = 2;
+                        break;
+                }
+            }
+            else if (tipo == "penalbloqueo") {
+                $('#tiro').show(100);
+                switch (true) {
+                    case (equipoJugada == equipo1):
+
+                        $('#falta').show(100);
+                        $('#falta').html('Falta de ' + nombre2 + ', tiro libre para ' + nombre1);
+                        $('#tiro').html('Tiro bloqueado por el ' + nombre2);
+                        equipoBalon = 2;
+                        break;
+                    default:
+
+                        $('#falta').show(100);
+                        $('#falta').html('Falta de ' + nombre1 + ', tiro libre para ' + nombre2);
+                        $('#tiro').html('Tiro bloqueado por el ' + nombre1);
+                        equipoBalon = 1;
+                        break;
+                }
+            }
+            else {
+
+                $('#tiro').show(100);
+                switch (true) {
+
+                    case (equipoJugada == equipo1):
+
+                        $('#ofensiva').show(100);
+                        $('#ofensiva').html(nombre2 + ' tira para anotar!');
+                        $('#tiro').html('Tiro bloqueado por el ' + nombre1);
+                        equipoBalon = 1;
+
+                        break;
+                    default:
+
+                        $('#ofensiva').show(100);
+                        $('#ofensiva').html(nombre2 + ' tira para anotar!');
+                        $('#tiro').html('Tiro bloqueado por el ' + nombre2);
+                        equipoBalon = 2;
+                        break;
+                }
+            }
+        }
+
+
+
+        else {//Jugadas ofensivas: tiros, pases, despejes
+            $('#ofensiva').show();
+            $('#defensiva').hide();
+            $('#falta').hide();
+
+
+            if (tipo == "avance") {
+                //Avance 
+                switch (true) {
+                    case (equipoJugada == equipo1):
+                        $('#ofensiva').html(nombre1 + ' avanza con el balon');
+
+                        break;
+                    default:
+                        $('#ofensiva').html(nombre2 + ' avanza con el balon');
+
+                        break;
+                }
+            }
+            else {
+                //pases
+                switch (true) {
+                    case (equipoJugada == equipo1):
+                        $('#ofensiva').html(nombre1 + ' pasa el balon');
+
+                        break;
+                    default:
+                        $('#ofensiva').html(nombre2 + ' pasa el balon');
+                        break;
+                }
+
+            }
+
+
+
+
+        }
+
+
+        if (equipoBalon == 1)
+            $('#EquipoBalon').html("El " + nombre1 + " tiene el balon");
+        else
+            $('#EquipoBalon').html("El " + nombre2 + " tiene el balon");
+
+
+    }
+
+</script>

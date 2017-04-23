@@ -1,0 +1,196 @@
+﻿@model FootballML.Models.JuegoViewModel
+ @{
+     Layout = null;
+
+}
+
+@Html.HiddenFor(model => model.equipo1)
+@Html.HiddenFor(model => model.equipo2)
+@Html.HiddenFor(model => model.nombre1)
+@Html.HiddenFor(model => model.nombre2)
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Jugar</title>
+</head>
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<body >
+    <div style="text-align:center">
+        <button id="stop" class="btn-sm btn-info" style="text-align:center"> Desplegar Historial</button>
+        <button id="resume" class="btn-sm btn-info" style="text-align:center"> Continuar </button>
+   
+    </div>
+   <div class="fitImage" id="field">
+    
+    <span class="timer"></span>
+
+    <div id="ofensiva" class="ofensivatext">
+
+    </div>
+    <div id="defensiva" class="defensivatext">
+
+    </div>
+    <div id="falta" class="faltatext">
+
+    </div>
+    <div id="EquipoBalon" class="balon">
+
+    </div>
+    <div id="tiro" class="gol">
+
+
+    </div>
+       </div>
+    <div style="text-align:center;">
+        <div class="row" id="equipos">
+          
+           
+
+            <div class="Equipo1">
+                <img src="@Model.icono1" style="width:200px;height:200px"  />
+                <div id="Goles1"   class="Marcador">
+                </div>
+                
+            </div>
+            <div class="Equipo2">
+                <img src="@Model.icono2" style="width:200px;height:200px"  />
+                <div id="Goles2"; class="Marcador">
+
+                </div>
+            </div>
+
+        </div>
+
+    
+    </div>
+    <table id="tabla" style="text-align:center;margin-left:auto;margin-right:auto;" class="table table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th>NumJugada</th>
+                <th>Equipo</th>
+                <th>Categoria</th>
+                <th>Jugada</th>
+                <th>Minuto</th>
+            </tr>
+        </thead>
+        <tbody id="tablebody"></tbody>
+    </table>
+
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+</html>
+
+
+
+<script src="~/Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+<script src="~/Scripts/Juego.js" type="text/javascript"></script>
+<style>
+    .timer {
+        width: 200px;
+        margin: 20px auto;
+        text-align: center;
+        display: block;
+        font-size: 56px;
+        text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        color: white;
+    }
+
+    #help {
+        width: 500px;
+        margin: 20px auto;
+        text-align: center;
+        display: block;
+        font-size: 14px
+    }
+
+    .ofensivatext {
+        color: yellow;
+        text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        font-size: 24px
+    }
+
+    .defensivatext {
+        color: blue;
+        text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        font-size: 24px
+    }
+
+    .faltatext {
+        color: orange;
+        text-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+        font-size: 24px
+    }
+
+    .balon {
+        margin: 20px auto;
+        text-align: center;
+        display: block;
+        font-size: 20px;
+        color: white
+    }
+
+    .gol {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        margin: 0 auto;
+        border: none;
+        font: normal 32px/normal "Anton", Helvetica, sans-serif;
+        color: rgb(222, 112, 112);
+        text-align: center;
+        text-transform: uppercase;
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        letter-spacing: 10px;
+        text-shadow: 4px 4px 0 rgb(238,238,238), 6px 6px 0 rgb(112,112,112);
+    }
+
+    .stats {
+        display: block;
+        font-size: 20px
+    }
+
+    .Marcador {
+        margin: 20px auto;
+        position: absolute;
+        top: 200px;
+        left: 0;
+        width: 100%;
+        font-size: 32px
+    }
+
+    /* Make .fitImage fill viewport */
+    html, body, .fitImage {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Make div have background image */
+    .fitImage {
+        background: center no-repeat url('https://www2.picturepush.com/photo/a/4155515/img/Anonymous/soccer-field-2.jpg');
+        /* CSS3 prefix added by prefix free library */
+        background-size: contain;
+        bottom: 90%;
+        text-align: center
+    }
+    .Equipo2 {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        height: 300px;
+        width: 300px;
+    }
+
+    .Equipo1 {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        height: 300px;
+        width: 300px;
+    }
+</style>

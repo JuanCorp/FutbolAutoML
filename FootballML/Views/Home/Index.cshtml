@@ -1,0 +1,275 @@
+﻿@model FootballML.Models.EquipoViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Home Page";
+}
+
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<body class="bg" >
+    @if (Model.tabla != null)
+    {
+    <div class="row">
+        <div class="container">
+            <div class="row text-center">
+                <button id="atrasHistorial" type="button" style="width:200px" class="btn btn-primary btn-lg">
+                    <div class="cleartext">Atras</div>
+                </button>
+                <h1 class="cleartext" id="Title" style="color:antiquewhite">Bienvenidos a <br> Football Simulator</h1>
+                <br><br>
+                <div class="row" id="Jugar">
+                    <br><br />
+                    <button type="button" style="width:200px" class="btn butbg btn-primary btn-lg">
+                        <div class="cleartext">Jugar</div>
+
+                    </button>
+                </div>
+                <div class="row" id="Auto">
+                    <br><br />
+                    <button type="button" style="width:200px" id="SeleccionarTeam" class="btn butbg btn-primary btn-lg">
+                        <div class="cleartext">Juego Automatico</div>
+                    </button>
+                </div>
+                <div class="row" id="Recrear">
+                    <br><br />
+                    <button type="button" style="width:200px" class="btn butbg btn-primary btn-lg">
+                        <div class="cleartext">Recrear Juego</div>
+                    </button>
+                </div>
+                <div class="row" id="Atras">
+                    <br><br />
+                    <button type="button" style="width:200px" class="btn butbg btn-primary btn-lg">
+                        <div class="cleartext">Atras</div>
+                    </button>
+                </div>
+                <div class="row">
+                    <br><br />
+                    <button type="button" style="width:200px" class="btn butbg btn-primary btn-lg" id="Simular">
+                        <div class="cleartext">Simulacion ML</div>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <h2 style="text-align:center;color:white" id="textTeam1">Selecciona el Equipo 1</h2>
+    <h2 style="text-align:center;color:white" id="textTeam2">Selecciona el Equipo 2</h2>
+    <h2 style="text-align:center;color:white" id="ContinuarText">Comenzar el juego</h2>
+
+    <div class="container" id="container1">
+        <div id="content">
+            <img src="@Model.Equipos[3].icono" class="barca" id="barcaTeam" onclick="teamclick1(3)" />
+        </div>
+
+        <div id="content">
+            <img src="@Model.Equipos[1].icono" style="height:250px;width:250px" class="bayern" id="bayernTeam" onclick="teamclick1(1)" />
+        </div>
+
+        <div id="content">
+            <img src="@Model.Equipos[2].icono" class="juventus" id="juvTeam" onclick="teamclick1(2)" />
+        </div>
+        <div class="real">
+            <img src="@Model.Equipos[0].icono" id="realTeam" onclick="teamclick1(0)" />
+        </div>
+    </div>
+
+    <div class="container" id="container2">
+        <div id="content">
+            <img src="@Model.Equipos[3].icono" style="height:200px;width:200px" class="barca" id="barcaTeam2" onclick="teamclick2(3)" />
+        </div>
+
+        <div id="content">
+            <img src="@Model.Equipos[1].icono" style="height:200px;width:200px" class="bayern" id="bayernTeam2" onclick="teamclick2(1)" />
+        </div>
+
+        <div id="content">
+            <img src="@Model.Equipos[2].icono" style="height:200px;width:200px" class="juventus" id="juvTeam2" onclick="teamclick2(2)" />
+        </div>
+        <div class="real">
+            <img src="@Model.Equipos[0].icono" style="height:200px;width:200px" id="realTeam2" onclick="teamclick2(0)" />
+        </div>
+    </div>
+    <button id="atrasSeleccion" type="button" style="width:200px;text-align:center;position:absolute;bottom:10%;right:50%" class="btn btn-primary btn-lg">
+        <div class="cleartext">Atras</div>
+    </button>
+    <div style="text-align:center" id="buttons">
+        <button id="rest" class="btn-danger btn-lg" style="position:absolute;top:50%;" onclick="Reestablecer()">Reestablecer</button>
+        <button id="sub" class="btn-warning btn-lg" style="position:absolute;top:50%;left:30%">Continuar</button>
+    </div>
+
+    <div id="historial"style="color:white" class="cleartext">
+    <h2>Repetir juego desde historial</h2>
+
+    <p>
+    </p>
+    <table class="table" style="color:white">
+        <tr>
+            <th>
+                Ganador
+            </th>
+            <th>
+                Ofensivas1
+            </th>
+            <th>
+                Ofensivas2
+            </th>
+            <th>
+                Defensivas1
+            </th>
+            <th>
+                Defensivas2
+            </th>
+            <th>
+                Faltas1
+            </th>
+            <th>
+                Faltas2
+            </th>
+            <th>
+                Goles1
+            </th>
+            <th>
+                Goles2
+            </th>
+            <th>
+                Equipo 1
+            </th>
+            <th>
+                Equipo 2
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.tabla.juegos)
+        {
+            <tr>
+                <td>
+                    @if (item.juego.Ganador == item.juego.Equipo1ID)
+                    {
+                        @Html.DisplayFor(modelItem => item.nombre1)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.nombre2)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.juego.OfensivasTeam1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.juego.OfensivasTeam2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.juego.DefensivasTeam1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.juego.DefensivasTeam2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.juego.FaltasTeam1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.juego.FaltasTeam2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.juego.GolesTeam1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.juego.GolesTeam2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre2)
+                </td>
+                <td>
+                    @Html.ActionLink("Simular", "Simular", new { id = item.juego.IDJuego })
+                </td>
+            </tr>
+        }
+
+    </table>
+        </div>
+    }
+    else{ 
+    <div style="color:white;" class="cleartext">
+        <h2>Prediccion de juegos Simulados</h2>
+
+        <div class="col-lg-10">
+
+            <p>
+                Este modulo crea una serie de juegos de manera aleatoria, e intenta predecir el resultado de cada uno.
+                Los juegos generados ya tienen su resultado generado,  un modelo de Machine Learning dara su prediccion de quien fue que gano.
+                (No mas de 25 juegos.)
+            </p>
+
+
+
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { htmlAttributes = new { @id = "MLForm" } }))
+            {
+                @Html.ValidationSummary(true)
+
+                @Html.EditorFor(m => m.cantidad, new { htmlAttributes = new { @class = "input-sm", @style = "color:black" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.cantidad)
+                <br />
+                <br />
+                <input type="submit" id="submitted" class="btn btn-warning" value="Generar Simulacion" />
+
+            }
+
+            <div class="container"  id="spinners" style="text-align:center;">
+                <div class="loader" style="margin:0 auto"> </div>
+                Espere mientras se carga el modelo.
+            </div>
+
+        </div>
+        </div>
+    }
+        <div id="MLChoose" style="color:white;" class="cleartext">
+            <h2>Prediccion de juegos Simulados</h2>
+
+            <div class="col-lg-10">
+
+                <p>
+                    Este modulo crea una serie de juegos de manera aleatoria, e intenta predecir el resultado de cada uno.
+                    Los juegos generados ya tienen su resultado generado,  un modelo de Machine Learning dara su prediccion de quien fue que gano.
+                    (No mas de 25 juegos.)
+                </p>
+
+
+
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { htmlAttributes = new { @id = "MLForm" } }))
+            {
+                    @Html.ValidationSummary(true)
+
+                    @Html.EditorFor(m => m.cantidad, new { htmlAttributes = new { @class = "input-sm", @style = "color:black" } })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.cantidad)
+                    <br />
+                    <br />
+                    <input type="submit" id="subm" class="btn btn-warning" value="Generar Simulacion" />
+
+                }
+
+                <div class="container" id="spinner" style="text-align:center">
+                    <div class="loader" style="margin:0 auto"> </div>
+                    Espere mientras se carga el modelo.
+                </div>
+
+            </div>
+        </div>
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Styles.Render("~/Content/MainMenu.css")
+
+<script src="~/Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script type="text/javascript" src="~/Scripts/MainMenu.js"  >
+</script>

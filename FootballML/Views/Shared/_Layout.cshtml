@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class ="bg" style="background:url(https://s-media-cache-ak0.pinimg.com/736x/99/e4/9a/99e49ac7aa5c74d0fb1d017ce4823761.jpg)">
+   
+
+    <div class="container body-content bg-overlay" >
+ 
+        @RenderBody()
+       
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<style>
+    body, html {
+        height: 100%;
+        margin:0;
+    }
+    .bg-overlay {
+        background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://wallpaperscraft.com/image/football_ukraine_poland_ball_grass_flags_79992_1920x1080.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        color: #fff;
+        display:block;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-width: 100%;
+        max-height: 100%;
+        margin: auto;
+        overflow: auto;
+    }
+</style>

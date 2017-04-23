@@ -1,0 +1,131 @@
+﻿
+@model FootballML.Models.MLViewModel
+
+@{
+    ViewBag.Title = "Simulacion";
+}
+
+
+<h2>Simulacion</h2>
+
+
+<p>
+</p>
+
+<button class="btn btn-success" id="btnGenerar">Generar resultados aleatorios</button>
+<div class="table-responsive" id="testTable">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ofensivas 1</th>
+                <th>Ofensivas 2</th>
+                <th>Defensivas 1</th>
+                <th>Defensivas 2</th>
+                <th>Faltas 1</th>
+                <th>Faltas 2</th>
+            </tr>
+        </thead>
+        @for (int i = 0; i < Model.size; i++)
+        {
+            <tr>
+                <td>
+                    @Model.test.ElementAt(i).JugadasOfensivasTeam1
+                </td>
+                <td>
+                    @Model.test.ElementAt(i).JugadasOfensivasTeam2
+                </td>
+                <td>
+                    @Model.test.ElementAt(i).JugadasDefensivasTeam1
+                </td>
+                <td>
+                    @Model.test.ElementAt(i).JugadasDefensivasTeam2
+                </td>
+                <td>
+                    @Model.test.ElementAt(i).FaltasTeam1
+                </td>
+                <td>
+                    @Model.test.ElementAt(i).FaltasTeam2
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+<button class="btn btn-info" id="btnContinuar">Continuar con la prediccion</button>
+<div class="table-responsive" id="predTable">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ofensivas 1</th>
+                <th>Ofensivas 2</th>
+                <th>Defensivas 1</th>
+                <th>Defensivas 2</th>
+                <th>Faltas 1</th>
+                <th>Faltas 2</th>
+                <th>Ganador Real</th>
+                <th>Ganador Pred</th>
+
+            </tr>
+        </thead>
+        @for (int i = 0; i < Model.size; i++)
+        {
+            <tr>
+                <td>
+                    @Model.validate.ElementAt(i).OfensivasTeam1
+                </td>
+                <td>
+                    @Model.validate.ElementAt(i).OfensivasTeam2
+                </td>
+                <td>
+                    @Model.validate.ElementAt(i).DefensivasTeam1
+                </td>
+                <td>
+                    @Model.validate.ElementAt(i).DefensivasTeam2
+                </td>
+                <td>
+                    @Model.validate.ElementAt(i).FaltasTeam1
+                </td>
+                <td>
+                    @Model.validate.ElementAt(i).FaltasTeam2
+                </td>
+                <td>
+                    @Model.test.ElementAt(i).Ganador
+                </td>
+                <td>
+                    @Model.validate.ElementAt(i).Ganador
+                </td>
+                
+            </tr>
+        }
+
+    </table>
+    <h5>Los certeza del modelo fue de un @Model.Accuracy%</h5>
+
+</div>
+<button class="btn-md btn-success" id="Salir" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");">Salir</button>
+
+<script src="~/Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#testTable").hide();
+        $("#predTable").hide();
+        $("#btnContinuar").hide();
+        $("#Salir").hide();
+        $("#btnGenerar").click(function () {
+            $("#testTable").show(100);
+            $("#btnContinuar").show(100);
+        });
+        $("#btnContinuar").click(function () {
+            $("#testTable").hide(100);
+            $("#predTable").show(100);
+            $("#btnGenerar").hide();
+            $("#btnContinuar").hide();
+            $("#Salir").show(100);
+        });
+    })
+
+   
+
+</script>

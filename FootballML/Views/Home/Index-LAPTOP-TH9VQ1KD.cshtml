@@ -1,0 +1,301 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Home Page";
+}
+
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<body class="bg" >
+    <div class="row">
+        <div class="container">
+            <div class="row text-center">
+                <h1 class="cleartext" style="color:antiquewhite">Bienvenidos a <br> Football Simulator</h1>
+                <br><br>
+                <div class="row" id="Jugar">
+                    <br><br />
+                    <button type="button" style="width:200px" class="btn butbg btn-primary btn-lg">
+                        <div class="cleartext">Jugar</div>
+
+                    </button>
+                </div>
+                <div class="row" id="Auto">
+                    <br><br />
+                    <button type="button" style="width:200px" class="btn butbg btn-primary btn-lg" id="seleccionBTN" >
+                        <div class="cleartext">Juego Automatico</div>
+                    </button>
+                </div>
+                <div class="row" id="Recrear">
+                    <br><br />
+                    <button type="button" style="width:200px" class="btn butbg btn-primary btn-lg" onclick="@("window.location.href='" + @Url.Action("Index", "Historia") + "'");">
+                        <div class="cleartext">Recrear Juego</div>
+                    </button>
+                </div>
+                <div class="row" id="Atras">
+                    <br><br />
+                    <button type="button" style="width:200px" class="btn butbg btn-primary btn-lg">
+                        <div class="cleartext">Atras</div>
+                    </button>
+                </div>
+                <div class="row">
+                    <br><br />
+                    <button type="button" style="width:200px" onclick="@("window.location.href='" + @Url.Action("Index", "ML") + "'");"
+                            class="btn butbg btn-primary btn-lg" id="Simular">
+                        <div class="cleartext">Simulacion ML</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="seleccion">
+        <h2 style="text-align:center;color:antiquewhite"  id="textTeam1">Selecciona el Equipo 1</h2>
+        <h2 style="text-align:center;color:antiquewhite" id="textTeam2">Selecciona el Equipo 2</h2>
+        <h2 style="text-align:center; color:antiquewhite" id="ContinuarText">Comenzar el juego</h2>
+
+        <div class="container" id="container1">
+            <div id="content">
+                <img src="@Model.Equipos[3].icono" class="barca" id="barcaTeam" onclick="teamclick1(3)" />
+            </div>
+
+            <div id="content">
+                <img src="@Model.Equipos[1].icono" style="height:250px;width:250px" class="bayern" id="bayernTeam" onclick="teamclick1(1)" />
+            </div>
+
+            <div id="content">
+                <img src="@Model.Equipos[2].icono" class="juventus" id="juvTeam" onclick="teamclick1(2)" />
+            </div>
+            <div class="real">
+                <img src="@Model.Equipos[0].icono" id="realTeam" onclick="teamclick1(0)" />
+            </div>
+        </div>
+
+        <div class="container" id="container2">
+
+
+            <div id="content">
+                <img src="@Model.Equipos[3].icono" style="height:200px;width:200px" class="barca" id="barcaTeam2" onclick="teamclick2(3)" />
+            </div>
+
+            <div id="content">
+                <img src="@Model.Equipos[1].icono" style="height:200px;width:200px" class="bayern" id="bayernTeam2" onclick="teamclick2(1)" />
+            </div>
+
+            <div id="content">
+                <img src="@Model.Equipos[2].icono" style="height:200px;width:200px" class="juventus" id="juvTeam2" onclick="teamclick2(2)" />
+            </div>
+            <div class="real">
+                <img src="@Model.Equipos[0].icono" style="height:200px;width:200px" id="realTeam2" onclick="teamclick2(0)" />
+            </div>
+        </div>
+
+        <div style="text-align:center">
+            <button id="rest" class="btn-danger btn-lg" style="position:absolute;top:50%;" onclick="Reestablecer()">Reestablecer</button>
+            <button id="sub" class="btn-warning btn-lg" style="position:absolute;top:50%;left:30%">Continuar</button>
+        </div>
+    </div>
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<style>
+
+    body, html {
+        height: 100%;
+        margin:0;
+    }
+
+    #content {
+        position: relative;
+    }
+
+    .barca {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+    }
+
+    .bayern {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+    }
+
+    .juventus {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+    }
+
+    .real {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+    }
+
+    .bg {
+        background: url(https://media.giphy.com/media/jiIAOvZtUvOve/source.gif) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+  
+    .butbg {
+        background: url("http://3.bp.blogspot.com/-sK73cYzFB4A/UYxeyjH7w7I/AAAAAAAABV8/yX3Sy9VmNtw/s1600/yellow+black+stripe+shyn.jpg");
+    }
+    .cleartext {
+        font-family: Raleway;
+        font-weight: 900;
+        text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
+    }
+
+</style>
+
+<script src="~/Scripts/jquery-3.1.1.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Auto").hide();
+        $("#Recrear").hide();
+        $("#Atras").hide();
+        $('#seleccion').hide();
+        $("#textTeam2").hide();
+        $("#container2").hide();
+        $("#rest").hide();
+        $("#juvTeam2").hide();
+        $("#bayernTeam2").hide();
+        $("#barcaTeam2").hide();
+        $("#realTeam2").hide();
+        $("#ContinuarText").hide();
+        $("#sub").hide();
+
+        $("#Jugar").click(function () {
+            $("#Auto").show();
+            $("#Jugar").hide();
+            $("#Recrear").show();
+            $("#Atras").show();
+            $("#Simular").hide();
+        });
+
+        $("#Atras").click(function () {
+            $("#Jugar").show();
+            $("#Auto").hide();
+            $("#Recrear").hide();
+            $("#Atras").hide();
+            $("#Simular").show();
+        });
+
+        $("#seleccionBTN").click(function () {
+            $("#Jugar").hide();
+            $("#Auto").hide();
+            $("#Recrear").hide();
+            $("#Atras").hide();
+            $("#Simular").hide();
+            $('#seleccion').show();
+
+         
+        });
+
+
+      
+
+    })
+
+    var equipo1 = -1;
+    var equipo2 = -1;
+
+
+
+    function teamclick1(teamnumber) {
+        $("#container1").hide();
+        $("#container2").show();
+        $("#textTeam1").hide();
+        $("#textTeam2").show();
+        switch (teamnumber) {
+            case 0:
+                equipo1 = 0;
+                $("#juvTeam2").show(100);
+                $("#bayernTeam2").show(100);
+                $("#barcaTeam2").show(100);
+
+
+                break;
+            case 1:
+                equipo1 = 1;
+
+                $("#juvTeam2").show(100);
+                $("#realTeam2").show(100);
+                $("#barcaTeam2").show(100);
+                break;
+            case 2:
+                equipo1 = 2;
+                $("#realTeam2").show(100);
+                $("#bayernTeam2").show(100);
+                $("#barcaTeam2").show(100);
+                break;
+            case 3:
+                equipo1 = 3;
+                $("#juvTeam2").show(100);
+                $("#bayernTeam2").show(100);
+                $("#realTeam2").show(100);
+                break;
+        }
+
+    }
+
+    function teamclick2(teamnumber) {
+        switch (teamnumber) {
+            case 0:
+                equipo2 = 0;
+                $("#juvTeam2").hide(100);
+                $("#bayernTeam2").hide(100);
+                $("#barcaTeam2").hide(100);
+                $("#realTeam2").hide(100);
+                break;
+            case 1:
+                equipo2 = 1;
+                $("#bayernTeam2").hide(100);
+                $("#juvTeam2").hide(100);
+                $("#realTeam2").hide(100);
+                $("#barcaTeam2").hide(100);
+                break;
+            case 2:
+                equipo2 = 2;
+                $("#bayernTeam2").hide(100);
+                $("#realTeam2").hide(100);
+                $("#barcaTeam2").hide(100);
+                $("#juvTeam2").hide(100);
+                break;
+            case 3:
+                equipo2 = 3;
+                $("#bayernTeam2").hide(100);
+                $("#realTeam2").hide(100);
+                $("#juvTeam2").hide(100);
+                $("#barcaTeam2").hide(100);
+                break;
+        }
+        $("#rest").show(100);
+        $("#sub").show(100);
+        $("#textTeam2").hide();
+        $("#ContinuarText").show();
+    }
+    function Reestablecer() {
+        equipo1 = -1;
+        equipo2 = -1;
+        $("#container1").show();
+        $("#container2").hide();
+        $("#rest").hide();
+        $("#show").hide();
+        $("#textTeam1").show();
+        $("#sub").hide();
+        $("#ContinuarText").hide();
+
+
+    }
+    $('#sub').on('click', function () {
+        var url = "/Juego/Jugar?equipoa=" + equipo1.toString() + "&equipob=" + equipo2.toString();
+        window.location.href = url;
+    })
+
+</script>

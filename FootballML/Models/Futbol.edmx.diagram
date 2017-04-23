@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1fc8a7e47b06485587b31b393ee0742b" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="FutbolDBModel.Equipos" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FutbolDBModel.Juegos" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FutbolDBModel.SimulResults" Width="1.5" PointX="9.375" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="FutbolDBModel.TestSimul" Width="1.5" PointX="7.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="FutbolDBModel.Jugadas" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="FutbolDBModel.FK_Juegos_Equipos2" ManuallyRouted="false" />
+        <AssociationConnector Association="FutbolDBModel.FK_Juegos_ToEquipos1" ManuallyRouted="false" />
+        <AssociationConnector Association="FutbolDBModel.FK_Jugadas_ToEquipo" ManuallyRouted="false" />
+        <AssociationConnector Association="FutbolDBModel.FK_Jugadas_ToJuego" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

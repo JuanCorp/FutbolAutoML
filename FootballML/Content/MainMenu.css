@@ -1,0 +1,70 @@
+﻿
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+    background: url(https://media.giphy.com/media/jiIAOvZtUvOve/source.gif) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.butbg {
+    background: url("http://3.bp.blogspot.com/-sK73cYzFB4A/UYxeyjH7w7I/AAAAAAAABV8/yX3Sy9VmNtw/s1600/yellow+black+stripe+shyn.jpg");
+}
+
+.cleartext {
+    font-family: Raleway;
+    font-weight: 900;
+    text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
+}
+
+#content {
+    position: relative;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.barca {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+}
+
+.bayern {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.juventus {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+
+.real {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+}

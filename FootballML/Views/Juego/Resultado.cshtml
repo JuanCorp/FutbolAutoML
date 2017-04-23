@@ -1,0 +1,71 @@
+﻿@model FootballML.Models.JuegoViewModel
+
+@{
+    ViewBag.Title = "Resultado";
+}
+
+<div class="ganador" style="text-align:center">
+        GANADOR
+<div id="imagen">
+    @if (Model.juego.Ganador == Model.equipo1)
+    {
+        <img src="@Model.juego.Equipos1.icono" />
+    }
+    else
+    {
+        <img src="@Model.juego.Equipos.icono" />
+    }
+    </div>
+
+   <table>
+       <thead>
+           <tr>
+               <th>Equipo</th>
+               <th>Ofensivas</th>
+               <th>Defensivas</th>
+               <th>Faltas</th>
+               <th>Goles</th>
+           </tr>
+       </thead>
+       <tbody>
+
+               <tr>
+                   <td>@Model.juego.Equipos1.Nombre</td>
+                   <td>@Model.juego.OfensivasTeam1</td>
+                   <td>@Model.juego.DefensivasTeam1</td>
+                   <td>@Model.juego.FaltasTeam1</td>
+                   <td>@Model.juego.GolesTeam1</td>
+               </tr>
+            <tr>
+                <td>@Model.juego.Equipos.Nombre</td>
+                <td>@Model.juego.OfensivasTeam2</td>
+                <td>@Model.juego.DefensivasTeam2</td>
+                <td>@Model.juego.FaltasTeam2</td>
+                <td>@Model.juego.GolesTeam2</td>
+            </tr>
+       </tbody>
+   </table>
+    <button class="btn-lg btn-success" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" >Salir </button>
+</div>
+
+
+
+
+
+<style>
+    .ganador {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        margin: 0 auto;
+        border: none;
+        font: normal 32px/normal "Anton", Helvetica, sans-serif;
+        color: rgb(222, 112, 112);
+        text-align: center;
+        text-transform: uppercase;
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        letter-spacing: 10px;
+        text-shadow: 4px 4px 0 rgb(238,238,238), 6px 6px 0 rgb(112,112,112);
+    }
+</style>
